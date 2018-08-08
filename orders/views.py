@@ -12,7 +12,7 @@ def index(request):
     context = {
         "user": request.user
     }
-    return render(request, "login.html", context)
+    return render(request, "shop.html", context)
 
 def login_view(request):
     username = request.POST["username"]
