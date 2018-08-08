@@ -31,8 +31,6 @@ class Pricing(models.Model):
     type = models.CharField(max_length=2,
                             choices=PIZZA_TYPES,
                             default=REGULAR)
-    def __str__(self):
-        return "Number of toppings: " + str(self.number_toppings)
 
 class Topping(models.Model):
     topping = models.CharField(max_length=64)
