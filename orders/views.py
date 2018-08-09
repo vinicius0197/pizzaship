@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse
 
+from orders.models import Pricing, Topping
+
 # Create your views here.
 def index(request):
     if not request.user.is_authenticated:
@@ -12,7 +14,8 @@ def index(request):
     context = {
         "user": request.user
     }
-    return render(request, "shop.html", context)
+    # return render(request, "shop.html", context)
+    return HttpResponseRedirect(reverse("shop"))
 
 def login_view(request):
     username = request.POST["username"]
@@ -20,7 +23,7 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("shop"))
     else:
         return render(request, "login.html", {"message": "Invalid Credentials"})
 
@@ -41,6 +44,20 @@ def registration(request):
         # Login user after registration
         user = authenticate(request, username=username, password=password)
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("shop"))
     else:
         return render(request, "registration.html", {"message": None})
+
+def shop(request):
+    """ Renders shopping information to user """
+    toppings = Topping.objects.all()
+
+    context = {
+        "toppings": toppings
+    }
+
+    return render(request, "shop.html", context)
+
+def order(request):
+    # TODO
+    pass

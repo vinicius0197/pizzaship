@@ -3,11 +3,11 @@ from django.db import models
 # Create your models here.
 class Pricing(models.Model):
     # Define types of toppings for pizza
-    CHEESE = 'CHEESE'
-    T1 = '1'
-    T2 = '2'
-    T3 = '3'
-    T4 = 'SPECIAL'
+    CHEESE = 'Cheese'
+    T1 = '1 Topping'
+    T2 = '2 Toppings'
+    T3 = '3 Toppings'
+    T4 = 'Special'
 
     TOPPING_TYPES = (
         (CHEESE, 'Cheese'),
@@ -16,7 +16,7 @@ class Pricing(models.Model):
         (T3, '3 toppings'),
         (T4, 'Special'),
     )
-    number_toppings = models.CharField(max_length=10,
+    number_toppings = models.CharField(max_length=12,
                                         choices=TOPPING_TYPES,
                                         default=CHEESE)
     small_price = models.DecimalField(max_digits=5, decimal_places=2)
