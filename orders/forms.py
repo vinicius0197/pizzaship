@@ -13,7 +13,7 @@ class OrderForm(forms.Form):
         ('0', 'Cheese'),
         ('1', '1 Topping'),
         ('2', '2 Toppings'),
-        ('3', '3 Toppings'),
+        ('3', 'P3 Toppings'),
         ('4', 'Special'),
     )
 
@@ -38,4 +38,3 @@ class OrderForm(forms.Form):
     # Create form option for showing toppings to user
     which_toppings = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, 
                                                 choices=toppings_options)
-

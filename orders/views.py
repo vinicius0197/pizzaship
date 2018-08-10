@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse
 
-from orders.models import Pricing, Topping
+from orders.models import Pricing, Topping, Order
 
 from .forms import OrderForm
 
@@ -51,14 +51,13 @@ def registration(request):
 
 def shop(request):
     """ Renders shopping information to user """
-    toppings = Topping.objects.all()
-    form = OrderForm()
-    context = {
-        "toppings": toppings,
-        "form": form
-    }
+    if request.method == 'GET':
+        form = OrderForm()
+        context = {
+            "form": form
+        }
 
-    return render(request, "shop.html", context)
+        return render(request, "shop.html", context)
 
 def order(request):
     # TODO handle order and create an 'order' object in database
@@ -66,6 +65,20 @@ def order(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             # handle order fields here https://docs.djangoproject.com/en/dev/topics/forms/#using-a-form-in-a-view
+            size = form.cleaned_data["size"]
+            subs = form.cleaned_data["subs"]
+            type = form.cleaned_data["type"]
+            which_toppings = form.cleaned_data["which_toppings"]
+            
+            order = Order.objects.create(
+                number_toppings = subs,
+                type = type,
+                size = size
+            )
+            choosen_toppings = Topping.objects.get(topping=which_toppings[0])
+            order.toppings.add(choosen_toppings)
+            order.save()
+
             return HttpResponseRedirect(reverse("shop"))
     else:
         return HttpResponseRedirect(reverse("shop"))
