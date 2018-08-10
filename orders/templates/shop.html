@@ -12,37 +12,12 @@
 <h1>Menu</h1>
 
 <div id="orderForm">
-  <ul>
-    <form>
-      <p>Select Size:</p>
-      <select id="selectSize">
-        <option value="small">Small</option>
-        <option value="large">Large</option>
-      </select>
-
-      <p>Select number of toppings:</p>
-      <select id="selectToppings">
-        <option value="0">Cheese</option>
-        <option value="1">1 Topping</option>
-        <option value="2">2 Toppings</option>
-        <option value="3">3 Toppings</option>
-        <option value="4">Special</option>
-      </select>
-
-      <p>Select type:</p>
-      <select id="selectType">
-        <option value="regular">Regular</option>
-        <option value="sicilian">Sicilian</option>
-      </select>
-  </ul>
-
-  <h2>Select Toppings</h2>
-  <ul>
-      {% for topping in toppings %}
-        <li><input type="checkbox" value="{{ topping.topping }}">{{ topping.topping }}</li>
-      {% endfor %}
-    </form>
-  </ul>
-  <input type="submit" value="Submit">
+    <form action=" {% url 'order' %} " method="post">
+    {% csrf_token %}
+    <ul>
+      {{ form.as_ul }}
+      <input type="submit" value="Submit">
+    </ul>
+  </form>
 </div>
 {% endblock %}

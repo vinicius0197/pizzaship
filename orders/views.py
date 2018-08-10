@@ -7,6 +7,8 @@ from django.urls import reverse
 
 from orders.models import Pricing, Topping
 
+from .forms import OrderForm
+
 # Create your views here.
 def index(request):
     if not request.user.is_authenticated:
@@ -14,7 +16,6 @@ def index(request):
     context = {
         "user": request.user
     }
-    # return render(request, "shop.html", context)
     return HttpResponseRedirect(reverse("shop"))
 
 def login_view(request):
@@ -51,13 +52,20 @@ def registration(request):
 def shop(request):
     """ Renders shopping information to user """
     toppings = Topping.objects.all()
-
+    form = OrderForm()
     context = {
-        "toppings": toppings
+        "toppings": toppings,
+        "form": form
     }
 
     return render(request, "shop.html", context)
 
 def order(request):
-    # TODO
-    pass
+    # TODO handle order and create an 'order' object in database
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            # handle order fields here https://docs.djangoproject.com/en/dev/topics/forms/#using-a-form-in-a-view
+            return HttpResponseRedirect(reverse("shop"))
+    else:
+        return HttpResponseRedirect(reverse("shop"))
