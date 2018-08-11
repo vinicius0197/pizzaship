@@ -16,6 +16,7 @@
         <b>Type:</b> {{ order.type }}
         <b>Toppings:</b>{% for topping in order.toppings.all %} {{ topping }} | {% endfor %}
         <b>Client: </b> {{ order.user }}
+        <b>Price: </b> {{ order.final_price }}$
     </li>
     <br>
 {% endfor %}

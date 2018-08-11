@@ -69,7 +69,10 @@ def cart(request):
             subs = form.cleaned_data["subs"]
             type = form.cleaned_data["type"]
 
-            prices_for_subs = Pricing.objects.get(number_toppings=subs)
+            try:
+                prices_for_subs = Pricing.objects.get(number_toppings=subs, type=type)
+            except Pricing.DoesNotExist:
+                return HttpResponse('Pricing data not found')
             if size == 'small':
                 price = prices_for_subs.small_price
             elif size == 'large':

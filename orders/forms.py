@@ -11,9 +11,9 @@ class OrderForm(forms.Form):
 
     topping_types = (
         ('Cheese', 'Cheese'),
-        ('1 topping', '1 topping'),
-        ('2 toppings', '2 toppings'),
-        ('3 toppings', '3 toppings'),
+        ('1 Topping', '1 topping'),
+        ('2 Toppings', '2 toppings'),
+        ('3 Toppings', '3 toppings'),
         ('Special', 'Special'),
     )
 
@@ -21,8 +21,8 @@ class OrderForm(forms.Form):
                             choices=topping_types)
 
     type_options = (
-        ('regular', 'Regular'),
-        ('sicilian', 'Sicilian'),
+        ('R', 'Regular'),
+        ('S', 'Sicilian'),
     )
 
     type = forms.ChoiceField(label='Type', choices=type_options)

@@ -21,15 +21,13 @@ class Pricing(models.Model):
     small_price = models.DecimalField(max_digits=5, decimal_places=2)
     large_price = models.DecimalField(max_digits=5, decimal_places=2)
 
-    REGULAR = 'R'
-    SICILIAN = 'S'
     PIZZA_TYPES = (
-        (REGULAR, 'Regular'),
-        (SICILIAN, 'Sicilian'),
+        ('R', 'Regular'),
+        ('S', 'Sicilian'),
     )
     type = models.CharField(max_length=2,
                             choices=PIZZA_TYPES,
-                            default=REGULAR)
+                            default='regular')
 
 class Topping(models.Model):
     topping = models.CharField(max_length=64)
@@ -40,9 +38,9 @@ class Topping(models.Model):
 class Order(models.Model):
     TOPPING_TYPES = (
         ('Cheese', 'Cheese'),
-        ('1 topping', '1 topping'),
-        ('2 toppings', '2 toppings'),
-        ('3 toppings', '3 toppings'),
+        ('1 Topping', '1 topping'),
+        ('2 Toppings', '2 toppings'),
+        ('3 Toppings', '3 toppings'),
         ('Special', 'Special'),
     )
     number_toppings = models.CharField(max_length=10,
@@ -57,8 +55,8 @@ class Order(models.Model):
                             choices=SIZE_OPTIONS,
                             default='Small')
     PIZZA_TYPES = (
-        ('regular', 'Regular'),
-        ('sicilian', 'Sicilian'),
+        ('R', 'Regular'),
+        ('S', 'Sicilian'),
     )
     type = models.CharField(max_length=10,
                             choices=PIZZA_TYPES,
