@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Confirm cart</h1>
-
+<a href="{% url 'shop' %}">Back to menu</a>
 <ul>
     {% for item in cart %}
     <li><b>Number of toppings: </b>{{ item.number_toppings }}

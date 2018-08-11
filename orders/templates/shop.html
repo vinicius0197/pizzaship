@@ -9,6 +9,8 @@
 <a href="{% url 'order' %}">View Orders</a>
 {% endif %}
 
+<a href="{% url 'view_cart' %}">View cart</a>
+
 <ul>
   <li>Currently logged in as: {{ user.username}}</li>
   <li><a href="{% url 'logout' %}">Logout</a>
