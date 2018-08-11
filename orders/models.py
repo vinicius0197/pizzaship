@@ -39,11 +39,11 @@ class Topping(models.Model):
 
 class Order(models.Model):
     TOPPING_TYPES = (
-        ('0', 'Cheese'),
-        ('1', '1 topping'),
-        ('2', '2 toppings'),
-        ('3', '3 toppings'),
-        ('4', 'Special'),
+        ('Cheese', 'Cheese'),
+        ('1 topping', '1 topping'),
+        ('2 toppings', '2 toppings'),
+        ('3 toppings', '3 toppings'),
+        ('Special', 'Special'),
     )
     number_toppings = models.CharField(max_length=10,
                                         choices=TOPPING_TYPES,

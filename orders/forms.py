@@ -10,11 +10,11 @@ class OrderForm(forms.Form):
                             choices=size_choices)
 
     topping_types = (
-        ('0', 'Cheese'),
-        ('1', '1 Topping'),
-        ('2', '2 Toppings'),
-        ('3', 'P3 Toppings'),
-        ('4', 'Special'),
+        ('Cheese', 'Cheese'),
+        ('1 topping', '1 topping'),
+        ('2 toppings', '2 toppings'),
+        ('3 toppings', '3 toppings'),
+        ('Special', 'Special'),
     )
 
     subs = forms.ChoiceField(label='Toppings',

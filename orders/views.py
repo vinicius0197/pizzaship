@@ -63,15 +63,25 @@ def cart(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            pricing = Pricing.objects.all()
+
             size = form.cleaned_data["size"]
             subs = form.cleaned_data["subs"]
             type = form.cleaned_data["type"]
+
+            prices_for_subs = Pricing.objects.get(number_toppings=subs)
+            if size == 'small':
+                price = prices_for_subs.small_price
+            elif size == 'large':
+                price = prices_for_subs.large_price
+            
             which_toppings = form.cleaned_data["which_toppings"]
             user = User.objects.get(username=request.user)
             order = Order.objects.create(
                 number_toppings = subs,
                 type = type,
                 size = size,
+                final_price = price,
                 user = user.username
             )
 
@@ -81,14 +91,11 @@ def cart(request):
             
             order.toppings.add(*query_list)
             order.save()
-
             return HttpResponseRedirect(reverse("shop"))
+        else:
+            return HttpResponse("Invalid form")
     else:
         return HttpResponseRedirect(reverse("shop"))
-
-def review(request):
-    #TODO
-    pricing = Pricing.objects.all()
 
 def order(request):
     if request.method == 'GET':
