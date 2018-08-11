@@ -12,7 +12,7 @@
 <h1>Menu</h1>
 
 <div id="orderForm">
-    <form action=" {% url 'order' %} " method="post">
+    <form action=" {% url 'cart' %} " method="post">
     {% csrf_token %}
     <ul>
       {{ form.as_ul }}

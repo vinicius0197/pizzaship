@@ -59,7 +59,7 @@ def shop(request):
 
         return render(request, "shop.html", context)
 
-def order(request):
+def cart(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
@@ -84,3 +84,11 @@ def order(request):
             return HttpResponseRedirect(reverse("shop"))
     else:
         return HttpResponseRedirect(reverse("shop"))
+
+def order(request):
+    if request.method == 'GET':
+        if request.user.is_superuser:
+            # show orders
+            return HttpResponse('Hello')
+    else:
+        return HttpResponse('Not allowed')
