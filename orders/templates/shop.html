@@ -4,12 +4,17 @@
 
 {% block content %}
 <h1> Hello, {{ user.username }}</h1>
+
+{% if request.user.is_superuser %}
+<a href="{% url 'order' %}">View Orders</a>
+{% endif %}
+
 <ul>
   <li>Currently logged in as: {{ user.username}}</li>
   <li><a href="{% url 'logout' %}">Logout</a>
 </ul>
 
-<h1>Menu</h1>
+<h1>Select your pizza: </h1>
 
 <div id="orderForm">
     <form action=" {% url 'cart' %} " method="post">

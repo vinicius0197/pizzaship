@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %} Orders {% endblock %}
+
+{% block content %}
+<h1>Orders</h1>
+<h4>Welcome, {{ user.username }}</h4>
+<br>
+<a href="{% url 'shop' %}">Back to main page</a>
+
+<ul>
+{% for order in order_data %}
+    <li><b>Order ID:</b> {{ order.id }}
+        <b>Number of toppings:</b> {{ order.number_toppings }}
+        <b>Size:</b> {{ order.size }}
+        <b>Type:</b> {{ order.type }}
+        <b>Toppings:</b>{% for topping in order.toppings.all %} {{ topping }} | {% endfor %}
+    </li>
+    <br>
+{% endfor %}
+</ul>
+
+{% endblock %}

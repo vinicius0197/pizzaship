@@ -88,7 +88,11 @@ def cart(request):
 def order(request):
     if request.method == 'GET':
         if request.user.is_superuser:
-            # show orders
-            return HttpResponse('Hello')
+            # Query database for all orders
+            orders = Order.objects.all()
+            context = {
+                "order_data": orders
+            }
+            return render(request, "orders.html", context)
     else:
         return HttpResponse('Not allowed')
