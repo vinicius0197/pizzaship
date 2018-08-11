@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse
 
-from orders.models import Pricing, Topping, Order
+from orders.models import Pricing, Topping, Order, Cart
 
 from .forms import OrderForm
 
@@ -63,6 +63,12 @@ def cart(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            # Check if user already has items in cart
+            user = User.objects.get(username=request.user)
+            cart = Cart.objects.filter(user=user.username)
+            if cart.exists():
+                return HttpResponse("You already have items in your cart")
+            # Queries for pricing data
             pricing = Pricing.objects.all()
 
             size = form.cleaned_data["size"]
@@ -79,12 +85,13 @@ def cart(request):
                 price = prices_for_subs.large_price
             
             which_toppings = form.cleaned_data["which_toppings"]
-            user = User.objects.get(username=request.user)
-            order = Order.objects.create(
+            
+            # Creates cart object
+            cart = Cart.objects.create(
                 number_toppings = subs,
                 type = type,
                 size = size,
-                final_price = price,
+                price = price,
                 user = user.username
             )
 
@@ -92,13 +99,42 @@ def cart(request):
             for item in which_toppings:
                 query_list.append(Topping.objects.get(topping=item))
             
-            order.toppings.add(*query_list)
-            order.save()
-            return HttpResponseRedirect(reverse("shop"))
+            cart.toppings.add(*query_list)
+            cart.save()
+            return HttpResponseRedirect(reverse("view_cart"))
         else:
             return HttpResponse("Invalid form")
     else:
         return HttpResponseRedirect(reverse("shop"))
+
+def view_cart(request):
+    user = User.objects.get(username=request.user)
+    cart = Cart.objects.filter(user=user.username)
+    context = {
+        "cart": cart
+    }
+    return render(request, "cart.html", context)
+
+def send_order(request):
+    user = User.objects.get(username=request.user)
+    cart = Cart.objects.get(user=user.username)
+
+    # Create order object
+    order = Order.objects.create(
+        number_toppings = cart.number_toppings,
+        size = cart.size,
+        type = cart.type,
+        user = cart.user,
+        final_price = cart.price
+    )
+    for topping in cart.toppings.all():
+        order.toppings.add(topping)
+    order.save()
+    
+    # Clean user cart
+    cart.delete()
+
+    return HttpResponseRedirect(reverse("shop"))
 
 def order(request):
     if request.method == 'GET':

@@ -69,3 +69,12 @@ class Order(models.Model):
 
     def __str__(self):
         return "Order: " + str(self.size)
+
+class Cart(models.Model):
+    number_toppings = models.CharField(max_length=10,
+                                        default='Cheese')
+    size = models.CharField(max_length=10, default='Small')
+    type = models.CharField(max_length=10, default='Regular')
+    toppings = models.ManyToManyField(Topping, blank=True)
+    user = models.CharField(max_length=64, default='none')
+    price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
