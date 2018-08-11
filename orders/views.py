@@ -67,11 +67,12 @@ def cart(request):
             subs = form.cleaned_data["subs"]
             type = form.cleaned_data["type"]
             which_toppings = form.cleaned_data["which_toppings"]
-            
+            user = User.objects.get(username=request.user)
             order = Order.objects.create(
                 number_toppings = subs,
                 type = type,
-                size = size
+                size = size,
+                user = user.username
             )
 
             query_list = []
@@ -84,6 +85,10 @@ def cart(request):
             return HttpResponseRedirect(reverse("shop"))
     else:
         return HttpResponseRedirect(reverse("shop"))
+
+def review(request):
+    #TODO
+    pricing = Pricing.objects.all()
 
 def order(request):
     if request.method == 'GET':

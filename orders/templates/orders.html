@@ -15,6 +15,7 @@
         <b>Size:</b> {{ order.size }}
         <b>Type:</b> {{ order.type }}
         <b>Toppings:</b>{% for topping in order.toppings.all %} {{ topping }} | {% endfor %}
+        <b>Client: </b> {{ order.user }}
     </li>
     <br>
 {% endfor %}

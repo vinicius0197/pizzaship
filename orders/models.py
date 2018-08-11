@@ -65,6 +65,8 @@ class Order(models.Model):
                             default='Regular')
     toppings = models.ManyToManyField(Topping, blank=True, related_name="orders")
     
+    user = models.CharField(max_length=64, default='user')
+
     final_price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
