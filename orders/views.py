@@ -60,11 +60,9 @@ def shop(request):
         return render(request, "shop.html", context)
 
 def order(request):
-    # TODO handle order and create an 'order' object in database
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            # handle order fields here https://docs.djangoproject.com/en/dev/topics/forms/#using-a-form-in-a-view
             size = form.cleaned_data["size"]
             subs = form.cleaned_data["subs"]
             type = form.cleaned_data["type"]
@@ -75,8 +73,12 @@ def order(request):
                 type = type,
                 size = size
             )
-            choosen_toppings = Topping.objects.get(topping=which_toppings[0])
-            order.toppings.add(choosen_toppings)
+
+            query_list = []
+            for item in which_toppings:
+                query_list.append(Topping.objects.get(topping=item))
+            
+            order.toppings.add(*query_list)
             order.save()
 
             return HttpResponseRedirect(reverse("shop"))

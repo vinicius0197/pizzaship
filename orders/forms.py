@@ -34,7 +34,7 @@ class OrderForm(forms.Form):
         item = (topping.topping, topping.topping)
         topping_list.append(item)
     toppings_options = tuple(topping_list)
-
+    
     # Create form option for showing toppings to user
     which_toppings = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, 
                                                 choices=toppings_options)
